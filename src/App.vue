@@ -1,32 +1,64 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div id="contents">
+    
+    <template v-if="authenticatedUser" >
+      <div class="head">
+          <router-link class="header-item" to="/">Home</router-link> 
+          <router-link class="header-item" to="/signOut">Signout</router-link> 
+      </div>
+    </template>
+    <template v-else>
+      <div class="head">
+        <router-link class="header-item" to="/register">Register</router-link>
+        <router-link class="header-item" to="/login">Login</router-link>         
+      </div>
+    </template>
+    
+        
+      <br><br>
+    <router-view></router-view>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<script>
+import firebase from "firebase";
+
+export default {
+  data() {
+    return {
+      authenticatedUser: ''
+    }
+  },
+  mounted() {
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+              console.log('login');
+              this.authenticatedUser = true;
+          } else {
+              console.log('logout');
+              this.authenticatedUser = false;
+          }
+        })
+  }
+}
+</script>
+
+<style scoped>
+#contents {
   text-align: center;
-  color: #2c3e50;
 }
-
-#nav {
-  padding: 30px;
+.head{
+  display: flex;
+  font-size: 25px;
+  justify-content: center;
+  padding-top: 20px;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.header-item:hover {
+  color: rgb(165, 247, 14);
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.header-item {
+  color: black;
+  padding: 5px;
+  margin: 3px;
 }
 </style>

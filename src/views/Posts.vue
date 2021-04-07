@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>WELCOME!</h1>
+
     </div>
 </template>
 
@@ -8,8 +8,9 @@
 export default {
     data() {
         return {
-            name: "Home"
+            name: "Post",
+            id: "",
         }
-    }
+    },    
 }
 </script>
